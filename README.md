@@ -1,5 +1,5 @@
 ## isc4241-act01
-scatterplots, tables, and calculating correlations
+group assignment - scatterplots, tables, and calculating correlations
 
 ### 1.1
 read the EXCEL file "COVID_08312020.csv"
