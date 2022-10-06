@@ -1,0 +1,49 @@
+# 09/02/2022
+
+# Problem 1.1
+# importing read.csv file 
+data = pd.read_csv("COVID_08312020.csv")
+print(data)
+
+# Problem 1.2
+# generating scatter plot that shows relationship between total cases and total deaths
+col_info_data = print(data[['Total Cases','Total Deaths']].info())
+x = data['Total Cases']
+y = data['Total Deaths']
+plt.scatter(x,y)
+sb.regplot(x="Total Cases", y="Total Deaths", ci=None, data=data, lowess=True)
+plt.show()
+
+# Problem 1.3
+from statsmodels.nonparametric.smoothers_lowess import lowess as loess
+plt.scatter(data["TOTCases_1M"], data["TOTDeath_!M"])
+loess_x, loess_y = loess(data["TOTDeath_!M"], data["TOTCases_1M"], return_sorted = True).T
+plt.plot(loess_x, loess_y, color='red')
+plt.xlabel("TOTCases_1M")
+plt.ylabel("TOTDeath_!M")
+plt.show()
+
+# Problem 1.4
+# function that receives a variable from the data frame and prints the summary statistics including 
+# minimum, mean, median, variance, standard deviation, maximum, and skewness to 3 decimal places.
+summaryDf = data.agg(
+    {
+        "Total Cases": ["min", "max", "mean", "median", "var", "std", "skew"],
+        "Total Deaths": ["min", "max", "mean", "median", "var", "std", "skew"],
+        "TOTCases_1M": ["min", "max", "mean", "median", "var", "std", "skew"],
+        "TOTDeath_!M": ["min", "max", "mean", "median", "var", "std", "skew"],
+        "TotalTested": ["min", "max", "mean", "median", "var", "std", "skew"],
+    }
+)
+pd.options.display.float_format = '{:,.3f}'.format
+summaryDf.round(3)
+
+# Problem 1.5
+# getting Spearman and Pearson correlations
+print("-----------------------------------SPEARMAN------------------------------------")
+mySpearman = data.corr(method = 'spearman')
+print(mySpearman)
+print("\n")
+print("-----------------------------------PEARSON------------------------------------")
+myPearson = data.corr(method = 'pearson')
+print(myPearson)
